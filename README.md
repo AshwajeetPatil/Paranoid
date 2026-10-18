@@ -1,6 +1,6 @@
 # 🛡️ Kosh — Offline-First Private Receipt & Document Vault
 
-[![Download Android APK](https://img.shields.io/badge/Download-Android_APK-10b981?style=for-the-badge&logo=android)](https://github.com/AshwajeetPatil/kosh-offline-vault/releases/latest)
+[![Download Android APK](https://img.shields.io/badge/Download-Android_APK-10b981?style=for-the-badge&logo=android)](https://github.com/AshwajeetPatil/kosh-offline-vault/releases/latest/download/Kosh-v1.0.0.apk)
 
 Kosh is a privacy-first, 100% on-device mobile vault built with React Native (Expo) and SQLite. It eliminates cloud dependency and subscription fees, enabling lightning-fast capture while keeping sensitive financial documents locked behind native biometrics.
 

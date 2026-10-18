@@ -11,8 +11,12 @@ export default function App() {
 
   useEffect(() => {
     (async () => {
-      await initDatabase();
-      await runStartupJanitor();
+      try {
+        await initDatabase();
+        await runStartupJanitor();
+      } catch (err) {
+        console.warn('Startup initialization warning:', err);
+      }
     })();
 
     const sub = AppState.addEventListener('change', (nextState) => {
@@ -28,7 +32,10 @@ export default function App() {
     if (ok) {
       setScreen('vault');
     } else {
-      Alert.alert('Vault Locked', 'Fingerprint or PIN authentication is required to view Kosh.');
+      Alert.alert(
+        'Paranoid Locked',
+        'Fingerprint, PIN, or Password authentication is required to view your vault.'
+      );
     }
   };
 

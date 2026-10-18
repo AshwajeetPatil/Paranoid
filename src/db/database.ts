@@ -4,7 +4,7 @@ import * as Sharing from 'expo-sharing';
 import * as DocumentPicker from 'expo-document-picker';
 
 export const PHOTOS_DIR = `${FileSystem.documentDirectory ?? ''}vault_photos/`;
-export const DB_NAME = 'kosh_vault_prod.db';
+export const DB_NAME = 'paranoid_vault_prod.db';
 
 export type ItemType = 'receipt' | 'document';
 export type ItemStatus = 'needs_review' | 'complete';
@@ -36,7 +36,7 @@ export interface CategorySummary {
 let dbInstance: SQLite.SQLiteDatabase | null = null;
 
 function generateId(): string {
-   return `${Date.now()}_${Math.random().toString(36).substring(2, 10)}`;
+  return `${Date.now()}_${Math.random().toString(36).substring(2, 10)}`;
 }
 
 export async function getDb(): Promise<SQLite.SQLiteDatabase> {
@@ -94,8 +94,8 @@ export async function runStartupJanitor(): Promise<number> {
 
   const expiredPhotos = await db.getAllAsync<{ file_name: string }>(`
     SELECT p.file_name FROM Photos p
-     INNER JOIN Items i ON p.item_id = i.id
-     WHERE i.is_pinned = 0 AND i.expires_at IS NOT NULL AND i.expires_at <= ?
+    INNER JOIN Items i ON p.item_id = i.id
+    WHERE i.is_pinned = 0 AND i.expires_at IS NOT NULL AND i.expires_at <= ?
   `, [now]);
 
   for (const row of expiredPhotos) {
@@ -145,7 +145,7 @@ export async function insertVaultItem(params: {
   await db.withTransactionAsync(async () => {
     await db.runAsync(`
       INSERT INTO Items (id, item_type, name, total_amount, category, splits_json, status, is_pinned, created_at, expires_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `, [
       itemId,
       params.itemType,
@@ -239,7 +239,7 @@ export function calculateCategoryTotals(items: VaultItem[]): CategorySummary[] {
 }
 
 /**
- * 1-Tap Portable Backup (Bundles SQLite rows + Base64 Photos into a single .kosh.json file)
+ * 1-Tap Portable Backup (Bundles SQLite rows + Base64 Photos into a single .paranoid.json file)
  */
 export async function exportPortableBackup(): Promise<void> {
   const items = await fetchAllVaultItems();
@@ -264,7 +264,7 @@ export async function exportPortableBackup(): Promise<void> {
   };
 
   const dateStr = new Date().toISOString().split('T')[0];
-  const backupUri = `${FileSystem.cacheDirectory}Kosh_Backup_${dateStr}.json`;
+  const backupUri = `${FileSystem.cacheDirectory}Paranoid_Backup_${dateStr}.json`;
 
   await FileSystem.writeAsStringAsync(backupUri, JSON.stringify(backupPayload), {
     encoding: FileSystem.EncodingType.UTF8,
@@ -273,13 +273,13 @@ export async function exportPortableBackup(): Promise<void> {
   if (await Sharing.isAvailableAsync()) {
     await Sharing.shareAsync(backupUri, {
       mimeType: 'application/json',
-      dialogTitle: 'Save Kosh Vault Backup',
+      dialogTitle: 'Save Paranoid Vault Backup',
     });
   }
 }
 
 /**
- * 1-Tap Restore from a Kosh_Backup.json file
+ * 1-Tap Restore from a Paranoid_Backup.json file
  */
 export async function importPortableBackup(): Promise<number> {
   const res = await DocumentPicker.getDocumentAsync({
@@ -313,7 +313,7 @@ export async function importPortableBackup(): Promise<number> {
     for (const item of parsed.items as VaultItem[]) {
       await db.runAsync(`
         INSERT OR REPLACE INTO Items (id, item_type, name, total_amount, category, splits_json, status, is_pinned, created_at, expires_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `, [
         item.id,
         item.item_type,

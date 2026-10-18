@@ -98,10 +98,10 @@ export default function VaultDashboardScreen({ onBackToCamera }: Props) {
       const count = await importPortableBackup();
       if (count > 0) {
         await loadVault();
-        Alert.alert('Restore Complete ✓', `Restored ${count} items to your Kosh Vault.`);
+        Alert.alert('Restore Complete ✓', `Restored ${count} items to your Paranoid Vault.`);
       }
     } catch {
-      Alert.alert('Restore Failed', 'Make sure you selected a valid Kosh_Backup.json file.');
+      Alert.alert('Restore Failed', 'Make sure you selected a valid Paranoid_Backup.json file.');
     }
   };
 
@@ -112,7 +112,7 @@ export default function VaultDashboardScreen({ onBackToCamera }: Props) {
         <TouchableOpacity onPress={onBackToCamera} style={styles.backBtn}>
           <Text style={styles.backText}>← Camera</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>🔓 Kosh Vault</Text>
+        <Text style={styles.title}>🔓 Paranoid Vault</Text>
         <View style={{ flexDirection: 'row', gap: 6 }}>
           <TouchableOpacity style={styles.utilBtn} onPress={handleBackup}>
             <Text style={styles.utilBtnText}>⬆ Backup</Text>

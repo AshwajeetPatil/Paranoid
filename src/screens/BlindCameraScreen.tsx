@@ -136,7 +136,7 @@ export default function BlindCameraScreen({ onOpenVault }: Props) {
       setIsPinned(false);
 
       Alert.alert(
-        'Saved to Kosh ✓',
+        'Saved to Paranoid ✓',
         name.trim()
           ? 'Entry saved to your private vault.'
           : 'Saved in Hurry Mode! Added to your "Needs Review" queue to name later.'
@@ -152,7 +152,7 @@ export default function BlindCameraScreen({ onOpenVault }: Props) {
   if (!permission.granted) {
     return (
       <View style={[styles.dark, styles.center]}>
-        <Text style={styles.permTitle}>Kosh Blind Camera</Text>
+        <Text style={styles.permTitle}>Paranoid Blind Camera</Text>
         <Text style={styles.permSub}>
           Grant camera access to snap receipts and multi-page documents immediately on launch.
         </Text>
@@ -280,7 +280,8 @@ export default function BlindCameraScreen({ onOpenVault }: Props) {
                 style={[styles.input, { flex: 1 }]}
                 placeholder="₹ (e.g. 150+40)"
                 placeholderTextColor="#71717a"
-                keyboardType="numbers-and-punctuation"
+                keyboardType="decimal-pad"
+                returnKeyType='done'
                 value={amountInput}
                 onChangeText={setAmountInput}
               />
@@ -396,7 +397,8 @@ export default function BlindCameraScreen({ onOpenVault }: Props) {
                       style={[styles.input, { flex: 1 }]}
                       placeholder="Sub-amount (e.g. 85+120)"
                       placeholderTextColor="#71717a"
-                      keyboardType="numbers-and-punctuation"
+                      keyboardType="decimal-pad"
+                      returnKeyType="done"
                       value={s.expr}
                       onChangeText={(txt) => {
                         const copy = [...splits];
